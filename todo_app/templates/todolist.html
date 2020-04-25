@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+<br>
+
+{% block anv_bar_add_list_form %}
+	<form action="{% url 'additem' %}" method="post" class="form-inline my-2 my-lg-0">
+		{% csrf_token %}
+		<input required name="item" class="add_item form-control mr-sm-2" type="text" placeholder="Add task to this Board"
+			   aria-label="Search">
+		<input type="hidden" name="form_name" value="add_list">
+		<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Add To List</button>
+	</form>
+{% endblock %}
+
+{% block content %}
+<br/>
+{% if board_list %}
+    <ul class="nav nav-pills">
+        {% for board in board_list %}
+            {% if board_get_id == board.id %}
+                <li class="pb-3 mr-2 nav-item"><a class="nav-link active" href="{% url 'board' board.id %}">{{ board.board_name }}</a></li>
+            {% else %}
+                <li class="pb-3 mr-2 nav-item"><a class="nav-link inactive-hover" href="{% url 'board' board.id %}">{{ board.board_name }}</a></li>
+            {% endif %}
+        {% endfor %}
+           <p class="add-btn-right text-right">
+                <a href="{% url 'addboard' %}" class="btn btn-info btn-lg">
+                    <span title="Add New Board" class="glyphicon glyphicon-plus-sign"><b>+</b></span>
+                    </a>
+        </p>
+    </ul>
+    {% endif %}
+    <p>
+     {% if todo_list %}
+        <table id="to_do_table" class="table table-bordered table-hover">
+        <thead>
+        <tr class="table-secondary">
+            <th class="custom-align-middle">No.</th>
+            <th class="custom-align-middle">Task Name</th>
+            <th class="custom-align-middle">Created On</th>
+            <th class="custom-align-middle">Strike</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for task in todo_list %}
+        {% if task.completed %}
+        <tr class="table-secondary">
+            <td class="custom-align-middle">{{ forloop.counter }}</td>
+            <td class="cross-list contenteditable" contenteditable='false' class="cross-list">{{ task.item }}</td>
+            <td class="custom-align-middle">{{ task.created_date }}</td>
+            <td class="custom-align-middle"><a href="{% url 'strike' task.id %}">Uncross</a></td>
+            <td class="custom-align-middle"><a href="{% url 'delete_item' task.id %}">Delete</a></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td class="custom-align-middle">{{ forloop.counter }}</td>
+            <td class="contenteditable" contenteditable='false'>{{ task.item }}</td>
+            <td class="custom-align-middle">{{ task.created_date }}</td>
+            <td class="custom-align-middle"><a href="{% url 'strike' task.id %}">Cross Off</a></td>
+            <td class="custom-align-middle"><a href="{% url 'delete_item' task.id %}">Delete</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <div hidden>
+        <form id="ajax_form_todo" action="/" method="post" class="form-inline my-2 my-lg-0">
+            {% csrf_token %}
+            <input id="custom_item" name="item" class="form-control mr-sm-2" type="text" placeholder="Add To Do item"
+                   aria-label="Search">
+            <button class="ajax_submit" type="submit"></button>
+        </form>
+    </div>
+    {% else %}
+    <h4 class="text-center">Add tasks to this board using right top input field and start work</h4>
+    {% endif %}
+    </p>
+{% endblock %}

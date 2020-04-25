@@ -1,0 +1,78 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel='icon' href='favicon.ico' type='image/x-icon' sizes="16x16" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+	{% if title %}
+		<title>ToDo App - {{ title }}</title>
+	{% else %}
+		<title>ToDo App</title>
+	{% endif %}
+  </head>
+  <body id="bootstrap-overrides">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">To Do Board <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+{% if user.is_authenticated %}	
+	{% block anv_bar_add_list_form %}
+	{% endblock %}
+        <li class="nav-item dropdown dropdown-main">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                My Profile
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-default"
+                 aria-labelledby="navbarDropdownMenuLink-333">
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href="{% url 'boards' %}">My Boards</a>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            </div>
+        </li>
+{% endif %}
+
+  </div>
+</nav>
+  <div class="container">
+      <div class=""><br/>
+    {% block messages %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endblock %}
+    </div>
+    {% block content %}
+    {% endblock %}
+  </div>
+  <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small style="color:white;">Copyright &copy; mytodolisting.com created by hemantgautam50@gmail.com</small>
+    </div>
+  </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+  </body>
+</html>

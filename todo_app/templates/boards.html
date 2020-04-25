@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+{% csrf_token %}
+{% if board_list %}
+<h3 class="text-center">My Boards</h3>
+<p class="add-btn-right text-right">
+    <a href="{% url 'addboard' %}" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-plus-sign">Add New Board</span>
+    </a>
+</p>
+<ul class="list-group">
+    {% for board in board_list %}
+    <li class="list-group-item-action list-group-item-light list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'board' board.id %}">{{ board.board_name }}</a>
+        <div>
+            <a class="btn btn-primary" href="{% url 'updateboard' board.id %}">Edit</a>
+            <a class="btn btn-danger" href="{% url 'deleteboard' board.id %}">Delete</a>
+        </div>
+    </li>
+</ul>
+{% endfor %}
+{% else %}
+<br>
+<br>
+<h4><p class="text-center">You don't have created any board. Create one and start adding todo tasks to it.</p></h4>
+<p class="add-btn-center text-center">
+    <a href="{% url 'addboard' %}" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-plus-sign">Add New Board</span>
+    </a>
+</p>
+{% endif %}
+{% endblock %}
+ 

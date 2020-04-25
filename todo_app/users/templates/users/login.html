@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h4 class="text-center">Welcome to TODO Board. Now no need to remember your daily tasks. Create Multiple boards here and add each possible tasks to it.</h4>
+<br/>
+    <div class="section-1-container section-container">
+            <div class="row">
+                <div class="col-10 offset-1 col-lg-8 offset-lg-2 div-wrapper d-flex justify-content-center align-items-center">
+                    <div class="div-to-align">
+                            <form id="user_login_form" action="/" method="post">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                   <div class="form-group">
+                                    <button class="btn btn-primary" type="submit">Login</button>
+                                    <small class="text-muted ml-2">
+                                        <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                                    </small>
+                                    </div>
+                            </form>
+							<small class="text-muted">Do you need an account?<a class="ml-2" href="{% url 'register' %}">Register</a>
+							</small>
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
